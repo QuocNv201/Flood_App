@@ -27,11 +27,19 @@ void loop() {
     servo_update(); 
 
     // 3. Đọc khoảng cách siêu âm
-    float d = ultrasonic_read_cm();
+   float d = ultrasonic_read_cm();
     if (d > 0) {
         Serial.printf("Distance: %.2f cm\n", d);
-    }
 
+        // Nếu phát hiện vật cản dưới 25-> bật indicators (cảnh báo)
+        if (d < 25.0f) {
+            indicators_alert_on();
+            servo_pause();
+        } else {
+            indicators_alert_off();
+            servo_resume();
+        }
+    } 
     // 4. Xử lý Bluetooth
     bt_process();
 
