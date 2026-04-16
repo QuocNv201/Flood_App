@@ -22,6 +22,7 @@ void loop() {
     // 1. Đọc cảm biến ánh sáng và điều khiển đèn
     int ldr = led_readAnalog(); 
     led_update(ldr);
+    Serial.printf("Mức độ ánh sáng: " "%d\n", ldr);
 
     // 2. Quét servo (radar)
     servo_update(); 
@@ -29,12 +30,13 @@ void loop() {
     // 3. Đọc khoảng cách siêu âm
    float d = ultrasonic_read_cm();
     if (d > 0) {
-        Serial.printf("Distance: %.2f cm\n", d);
+        Serial.printf("Khoảng cách vật cản: %.2f cm\n", d);
 
         // Nếu phát hiện vật cản dưới 25-> bật indicators (cảnh báo)
         if (d < 25.0f) {
             indicators_alert_on();
             servo_pause();
+         Serial.printf("Nguy hiểm!! Khoảng cách vật cản quá gần" "\n");
         } else {
             indicators_alert_off();
             servo_resume();
@@ -46,6 +48,6 @@ void loop() {
     // 5. Cập nhật đèn tín hiệu 
     indicators_update();
 
-    delay(50);
+    delay(40);
   
 }

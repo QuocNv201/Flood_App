@@ -6,10 +6,10 @@
 
 static Servo myServo;
 static int currentAngle = 0;
-static int stepAngle = 2;
-static bool forwardDir = true;
-static unsigned long lastMove = 0;
-static const unsigned long interval = 3; // ms
+static int stepAngle = 8; 
+static bool forwardDir = true; 
+static unsigned long lastMove = 0; 
+static const unsigned long interval = 1; // ms 
 static bool paused = false; //  tạm dừng quét
 
 void servo_init() {
@@ -21,7 +21,7 @@ void servo_init() {
 
 void servo_update() {
   if (paused) return;
-  unsigned long now = millis();
+  unsigned long now = millis(); 
   if (now - lastMove < interval) return;
   lastMove = now;
 

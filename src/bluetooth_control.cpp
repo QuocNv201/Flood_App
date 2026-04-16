@@ -1,4 +1,4 @@
-#include "bluetooth_control.h"
+#include "bluetooth_control.h" 
 #include "BluetoothSerial.h"
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
@@ -34,17 +34,17 @@ void backward() {
 }
 
 void turnLeft() {
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
-    digitalWrite(IN3, LOW);
-    digitalWrite(IN4, HIGH);
-}
-
-void turnRight() {
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
+}
+
+void turnRight() {
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, HIGH);
 }
 
 // ===== Hàm khởi tạo Bluetooth =====
@@ -67,12 +67,12 @@ void bt_process() {
     if (BT.available()) {
         char cmd = BT.read();
         Serial.println(cmd);
-
+        
         switch (cmd) {
             case 'F': forward();  break;
             case 'B': backward(); break;
-            case 'L': turnLeft(); break;
             case 'R': turnRight(); break;
+            case 'L': turnLeft(); break;
             default:  stopMotor(); break;
         }
     }
