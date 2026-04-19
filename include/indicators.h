@@ -1,9 +1,9 @@
 #pragma once
 
-// Khởi tạo module indicators (LED cảnh báo)
+// Khởi tạo module indicators (còi cảnh báo)
 void indicators_init();
 
-// Gọi định kỳ trong loop để cập nhật blink (non-blocking)
+// Gọi định kỳ trong loop để cập nhật nhịp kêu tít tít (non-blocking)
 void indicators_update();
 
 // Bật/tắt chế độ cảnh báo (khi có vật cản)

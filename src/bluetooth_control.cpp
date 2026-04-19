@@ -5,75 +5,66 @@
 
 BluetoothSerial BT;
 
-// Kết nối L298N
-#define IN1 27
-#define IN2 26
-#define IN3 25
-#define IN4 33
-
-// ===== Các hàm điều khiển động cơ =====
-void stopMotor() {
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, LOW);
-    digitalWrite(IN3, LOW);
-    digitalWrite(IN4, LOW);
-}
-
-void forward() {
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
-    digitalWrite(IN3, HIGH);
-    digitalWrite(IN4, LOW);
-}
-
-void backward() {
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, HIGH);
-    digitalWrite(IN3, LOW);
-    digitalWrite(IN4, HIGH);
-}
-
-void turnLeft() {
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, HIGH);
-    digitalWrite(IN3, HIGH);
-    digitalWrite(IN4, LOW);
-}
-
-void turnRight() {
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
-    digitalWrite(IN3, LOW);
-    digitalWrite(IN4, HIGH);
-}
-
 // ===== Hàm khởi tạo Bluetooth =====
 void bt_init() {
     WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Tắt Brownout
 
-    BT.begin("ESP32-Car");
+    BT.begin("ESP32-FloodApp");
     Serial.println("Bluetooth Ready!");
-
-    pinMode(IN1, OUTPUT);
-    pinMode(IN2, OUTPUT);
-    pinMode(IN3, OUTPUT);
-    pinMode(IN4, OUTPUT);
-
-    stopMotor();
 }
 
-// ===== Hàm xử lý Bluetooth trong loop =====
-void bt_process() {
-    if (BT.available()) {
-        char cmd = BT.read();
-        Serial.println(cmd);
-        
-        switch (cmd) {
-            case 'F': forward();  break;
-            case 'B': backward(); break;
-            case 'R': turnRight(); break;
-            case 'L': turnLeft(); break;
-            default:  stopMotor(); break;
-        }
+// ===== Gửi dữ liệu khoảng cách ultrasonic =====
+void bt_send_distance(float distance_cm) {
+    if (BT.connected()) {
+        BT.print("DIST:");
+        BT.println(distance_cm);
     }
+}
+
+// ===== Gửi dữ liệu ánh sáng =====
+void bt_send_light_level(int ldr_value) {
+    if (BT.connected()) {
+        BT.print("LIGHT:");
+        BT.println(ldr_value);
+    }
+}
+
+// ===== Gửi trạng thái cảnh báo =====
+void bt_send_alert_status(bool is_alert) {
+    if (BT.connected()) {
+        BT.print("ALERT:");
+        BT.println(is_alert ? "ON" : "OFF");
+    }
+}
+
+// ===== Gửi trạng thái servo =====
+void bt_send_servo_status(int angle, bool is_paused) {
+    if (BT.connected()) {
+        BT.print("SERVO:");
+        BT.print(angle);
+        BT.print(",");
+        BT.println(is_paused ? "PAUSE" : "SCAN");
+    }
+}
+
+// ===== Gửi dữ liệu tổng hợp =====
+void bt_send_all_data(float distance, int light, bool alert, int servo_angle, bool servo_paused) {
+    if (BT.connected()) {
+        BT.print("DATA:");
+        BT.print(distance);
+        BT.print(",");
+        BT.print(light);
+        BT.print(",");
+        BT.print(alert ? 1 : 0);
+        BT.print(",");
+        BT.print(servo_angle);
+        BT.print(",");
+        BT.println(servo_paused ? 1 : 0);
+    }
+}
+
+// ===== Xử lý lệnh từ Android (dự phòng cho tương lai) =====
+void bt_process() {
+    // Hiện tại chỉ gửi dữ liệu, không xử lý lệnh
+    // Sau này có thể thêm xử lý lệnh từ Android app tại đây
 }

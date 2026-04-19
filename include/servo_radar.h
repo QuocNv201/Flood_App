@@ -11,3 +11,6 @@ bool servo_isPaused();
 
 // Đặt servo về 1 góc cụ thể
 void servo_setAngle(int angle);
+
+// Lấy góc hiện tại của servo
+int servo_get_angle();

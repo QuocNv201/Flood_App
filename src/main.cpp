@@ -5,6 +5,10 @@
 #include "bluetooth_control.h"
 #include "indicators.h"
 
+static const float OBSTACLE_NEAR_CM = 25.0f;
+static const float OBSTACLE_CLEAR_CM = 30.0f;
+static bool obstacleDetected = false;
+
 void setup() {
     Serial.begin(115200);
 
@@ -24,7 +28,7 @@ void loop() {
     led_update(ldr);
     Serial.printf("Mức độ ánh sáng: " "%d\n", ldr);
 
-    // 2. Quét servo (radar)
+    // 2. Quay servo 
     servo_update(); 
 
     // 3. Đọc khoảng cách siêu âm
@@ -32,20 +36,30 @@ void loop() {
     if (d > 0) {
         Serial.printf("Khoảng cách vật cản: %.2f cm\n", d);
 
-        // Nếu phát hiện vật cản dưới 25-> bật indicators (cảnh báo)
-        if (d < 25.0f) {
+        // Hysteresis để tránh nhảy trạng thái liên tục khi đo dao động quanh ngưỡng.
+        if (!obstacleDetected && d < OBSTACLE_NEAR_CM) {
+            obstacleDetected = true;
             indicators_alert_on();
-            servo_pause();
-         Serial.printf("Nguy hiểm!! Khoảng cách vật cản quá gần" "\n");
-        } else {
-            indicators_alert_off();
             servo_resume();
+            Serial.printf("Nguy hiểm!! Khoảng cách vật cản quá gần\n");
+        } else if (obstacleDetected && d > OBSTACLE_CLEAR_CM) {
+            obstacleDetected = false;
+            indicators_alert_off();
+            servo_pause();
+            Serial.printf("Đã an toàn servo tạm dừng \n");
         }
     } 
-    // 4. Xử lý Bluetooth
+    
+    // 4. Gửi dữ liệu qua Bluetooth cho Android app
+    // Gửi tất cả dữ liệu: khoảng cách, ánh sáng, trạng thái cảnh báo, góc servo, trạng thái servo
+    if (d > 0) {
+        bt_send_all_data(d, ldr, obstacleDetected, servo_get_angle(), servo_isPaused());
+    }
+    
+    // Xử lý lệnh từ Android (để trống hiểu tại là sẵn sàng cho tương lai)
     bt_process();
 
-    // 5. Cập nhật đèn tín hiệu 
+    // 5. Cập nhật còi cảnh báo
     indicators_update();
 
     delay(40);
