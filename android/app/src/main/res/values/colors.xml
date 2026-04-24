@@ -1,0 +1,31 @@
+<resources>
+    <!-- Brand colors -->
+    <color name="primary">#1565C0</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_light">#42A5F5</color>
+    <color name="accent">#0288D1</color>
+
+    <!-- Background -->
+    <color name="background">#F5F7FA</color>
+    <color name="surface">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+
+    <!-- Alert states -->
+    <color name="alert_active">#D32F2F</color>
+    <color name="alert_inactive">#388E3C</color>
+
+    <!-- Progress bar tints -->
+    <color name="light_bar">#FFA000</color>
+    <color name="servo_bar">#7B1FA2</color>
+
+    <!-- Material defaults required by AppCompat theme -->
+    <color name="colorPrimary">#1565C0</color>
+    <color name="colorPrimaryVariant">#0D47A1</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#0288D1</color>
+    <color name="colorSecondaryVariant">#006699</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+</resources>
