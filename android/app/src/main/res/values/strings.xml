@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Flood App</string>
+
+    <!-- Section headers -->
+    <string name="section_alert">🚨 Alert Status</string>
+    <string name="section_distance">📏 Distance (Ultrasonic)</string>
+    <string name="section_light">💡 Light Level (LDR)</string>
+    <string name="section_servo">⚙️ Flood Barrier (Servo)</string>
+    <string name="section_control">🎮 Manual Control</string>
+
+    <!-- Sensor value formats -->
+    <string name="distance_format">%.2f cm</string>
+    <string name="distance_out_of_range">Out of range</string>
+    <string name="distance_scale_hint">0 cm ────────────────── 400 cm</string>
+
+    <string name="light_format">%d / 4095</string>
+    <string name="light_desc_dark">DARK (LED ON)</string>
+    <string name="light_desc_bright">BRIGHT (LED OFF)</string>
+    <string name="light_scale_hint">0 (dark) ────────────── 4095 (bright)</string>
+
+    <string name="servo_angle_format">%d°</string>
+    <string name="servo_status_format">Barrier: %s</string>
+    <string name="servo_scale_hint">0° (open) ────────────── 180° (closed)</string>
+    <string name="servo_target_format">Target angle: %d°</string>
+
+    <!-- Alert status -->
+    <string name="alert_active">⚠️ FLOOD ALERT ACTIVE</string>
+    <string name="alert_inactive">✅ SAFE</string>
+
+    <!-- Buttons -->
+    <string name="btn_reset_alert">Reset Alert</string>
+    <string name="btn_set_servo">Set Servo Angle</string>
+
+    <!-- SeekBar labels -->
+    <string name="seek_label_open">0° (Open)</string>
+    <string name="seek_label_closed">180° (Closed)</string>
+
+    <!-- Timestamp -->
+    <string name="last_updated_format">Last updated: %s</string>
+</resources>
